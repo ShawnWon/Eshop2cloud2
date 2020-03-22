@@ -1,0 +1,38 @@
+﻿@using Eshop2.Models;
+@model Eshop2.Models.Product
+
+
+@{
+
+    Product p = ViewBag.product;
+
+}
+
+    <div class="col-md-3 col-sm-3 text-center" >
+
+        <div class="thumbnail" style="background-color:lightgray;">
+
+            @{ if (Session["username"] == null)
+                {
+                    <img src="~/Content/images/@p.Imgaddress" alt="Image" onclick="ReDirectToLogIn();" class="img-rounded" data-holder-rendered="true" style="height:100px; width:50%; display: block;" title="@p.ProductDes" />
+                }
+                else
+                {
+                    <img src="~/Content/images/@p.Imgaddress" alt="Image" class="img-rounded" data-holder-rendered="true" style="height:100px; width:50%; display: block;" title="@p.ProductDes" />
+
+                }
+            }
+            <div class="caption">
+
+                <h6 id="thumbnail-label" style="font-family:Verdana;"><span class="product_id_label"></span>@Html.Raw(p.ProductName)</h6>
+
+
+
+                @{ if (Session["username"] != null)
+                    {
+                        <input type="button" value="$@p.Price -Add to Cart" onclick="Add_to_Cart(@p.Id);" />
+                    }
+                }
+            </div>
+        </div>
+</div>    

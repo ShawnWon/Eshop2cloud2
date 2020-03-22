@@ -1,0 +1,54 @@
+﻿@model Eshop2.Models.User
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<br>
+<br>
+
+
+
+<h2>Register</h2>
+@using (Html.BeginForm("RegNewUser", "Home", FormMethod.Post, new { id = "returnForm" }))
+{
+<table>
+    <tr>
+        <td>@Html.LabelFor(x => x.Name):</td>
+        <td>@Html.TextBoxFor(x => x.Name, new { })</td>
+        <td>@Html.ValidationMessageFor(x => x.Name)</td>
+    </tr>
+
+    <tr><td><br></td></tr>
+
+    <tr>
+        <td>@Html.LabelFor(x => x.Password):</td>
+        <td>@Html.PasswordFor(x => x.Password, new { }) </td>
+        <td>@Html.ValidationMessageFor(x => x.Password)</td>
+    </tr>
+
+    <tr><td><br></td></tr>
+
+    <tr>
+        <td>@Html.LabelFor(x => x.ConfirmPassword):</td>
+        <td>@Html.PasswordFor(x => x.ConfirmPassword)</td>
+        <td>@Html.ValidationMessageFor(x => x.ConfirmPassword)</td>
+    </tr>
+
+    <tr><td><br></td></tr>
+
+    <tr>
+        <td>@Html.LabelFor(x => x.EmailAdd):</td>
+        <td>@Html.TextBoxFor(x => x.EmailAdd)</td>
+        <td>@Html.ValidationMessageFor(x => x.EmailAdd)</td>
+    </tr>
+
+    <tr><td><br></td></tr>
+
+    <tr>
+        <td>By click"Register button" you agree with the <a href="@Url.Action("TnC","Home")">Terms&Conditions.</a></td>
+        <td align="right"><input id="submitBtn" type="submit" value="Register" class="btn" /></td>
+    </tr>
+</table>
+}
+

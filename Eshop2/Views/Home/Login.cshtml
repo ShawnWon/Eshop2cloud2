@@ -1,0 +1,60 @@
+﻿@model Eshop2.Models.User
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="col-md-12 col-xs-12 text-center">
+    <div class="col-md-6 col-sm-6 text-center">
+        <div class="col-md-6 col-sm-6"></div>
+        <div class="col-md-6 col-sm-6">
+
+            @using (Html.BeginForm("LoginCheckPassword", "Home", FormMethod.Post))  //Password only post to checkpassword(),so user will not see it in browser.
+            {
+                <table>
+                    <tr>
+                        <td>@Html.LabelFor(x => x.Name):</td>
+                        <td>@Html.TextBoxFor(x => x.Name, new { id = "username" })</td>  @*The name of this textbox is "UserName", the attribute of model user.*@
+                        <td>@Html.ValidationMessageFor(x => x.Name)</td>
+                    </tr>
+
+                    <tr><td><br></td></tr>
+
+                    <tr>
+                        <td>@Html.LabelFor(x => x.Password):</td>
+                        <td>@Html.PasswordFor(x => x.Password, new { id = "password" })</td>
+                        @*The name of this textbox is "Password", the attribute of model user.*@
+                        <td>@Html.ValidationMessageFor(x => x.Password)</td>
+                        @{ if ((bool)TempData["isAuth"] == false)
+                            {
+                                <td>Incorrect username or password</td>
+                            }
+                        }
+                    </tr>
+
+                    <tr><td><br></td></tr>
+
+
+                    <tr>
+                        <td colspan="2" align="right"><input id="submitBtn" type="submit" value="Log In" style="color:midnightblue" /></td>
+                    </tr>
+
+
+                </table>
+            }
+
+
+            <label>Still haven't an account?</label>
+            <input type="button" value="Register New Account" onclick="location.href='@Url.Action("Register","Home")'" />
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+

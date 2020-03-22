@@ -1,0 +1,188 @@
+﻿@using Eshop2.Models;
+@model Eshop2.Models.Product
+
+
+<script>
+    window.onload = function () { searchEnter() };
+</script>
+
+
+
+
+@{
+    List<Product> Plist = new List<Product> { };
+    Plist = ViewBag.Rlist;
+    string searchStr = (string)ViewData["searchStr"];
+    bool match = (bool)ViewData["match"];
+    int counter = 0;
+}
+
+@{ if (Session["username"] != null)
+    {
+<div class="row">
+    
+    <br>
+
+        <div class="thumbnail" style="background-color:lightgray;">
+            
+            <div class="caption">
+
+                <h3 id="thumbnail-label" style="font-family:Verdana;"><span class="product_id_label"></span>Today's Special!</h3>
+            
+            </div>
+        </div>
+
+        @Html.Partial("_GalleryPinfo")
+
+    </div>
+        }
+    }
+    <div class="row">
+
+        @{
+    <br>
+
+    <div class="thumbnail" style="background-color:lightgray;">
+
+        <div class="caption">
+
+            <h3 id="thumbnail-label" style="font-family:Verdana;"><span class="product_id_label"></span>Product List</h3>
+
+        </div>
+    </div>
+
+            if (match || searchStr == "")
+            {
+
+                foreach (Product p in Plist)
+                {
+                    if (counter != 0 && counter % 4 == 0)
+                    {
+                    @:</div>
+                    @:<div class="row">
+                    }
+
+                    ViewBag.product = p;
+
+                    @Html.Partial("_GalleryPinfo")
+
+                    counter++;
+
+
+                }
+
+            }
+
+            else
+            {
+                <div class="col-sm-3">There are no matches for your search.</div>
+            }
+        }
+    </div>
+
+
+
+
+
+
+
+    <style>
+        tr, th, td {
+            padding: 5px
+        }
+
+        .font-red {
+            font: weightbold;
+            color: red;
+        }
+    </style>
+
+
+    <script>
+
+        function searchEnter() {
+            var searchBox = document.getElementById("searchBox");
+            searchBox.addEventListener("keypress", function (e) {
+                var key = e.which || e.keyCode;
+                if (key === 13) {
+                    var data = { searchStr: searchBox.value };  /*Here we pass the Viariable name "searchStr" and its value to dictionary 'data'*/
+                    doPOST(data);           /*Here we post 'data' to method, if the method has a parameter with same name of "searchStr", it passes to controller.*/
+                }
+            });
+        }
+
+        function searchClick() {
+            var searchBox = document.getElementById("searchBox");
+            var data = { searchStr: searchBox.value };  /*Here we pass the Viariable name "searchStr" and its value to dictionary 'data'*/
+            doPOST(data);
+        }
+
+        function doPOST(data) {
+            var ajax = new XMLHttpRequest();
+            ajax.onreadystatechange = function () {
+                if (ajax.readyState == 4) {
+                    document.open();
+                    document.write(ajax.response);
+                    document.close();
+                }
+            }
+            ajax.open("POST", "/Product/ProductList", true);
+            ajax.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+
+            ajax.send(JSON.stringify(data));
+        }
+
+        function Add_to_Cart(product_id) {
+
+
+            var pdata = {
+                Id: product_id
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/Product/ClickAddtoCart",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(pdata),
+                dataType: "json",
+
+                // Response Success
+                success: function (response) {
+
+                    alert("Add successfully, pls check your cart.");
+                    document.getElementById("cartcount").innerHTML = response.quant;
+
+                },
+
+                // Response Fail
+                failure: function (response) {
+                    alert("Fail Case");
+                },
+
+                // Response Error
+                error: function (response) {
+                    alert("ERROR case");
+                }
+
+
+            });
+        }
+
+        function ReDirectToLogIn() {
+            var data = {};
+            alert('Please log in.');
+            var ajax = new XMLHttpRequest();
+            ajax.onreadystatechange = function () {
+                if (ajax.readyState == 4) {
+                    document.open();
+                    document.write(ajax.response);
+                    document.close();
+                }
+            }
+            ajax.open("POST", "/Home/Login", true);
+            ajax.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+
+            ajax.send(JSON.stringify(data));
+        }
+
+    </script>

@@ -1,0 +1,166 @@
+﻿@using Eshop2.Models
+@{
+    ViewBag.Title = "ViewCart";
+    List<Item> itemlist = ViewBag.cart;
+    int counter = 0;
+    int cartamount = (int)ViewData["cartamount"];
+
+}
+
+
+
+
+<br>
+<br>
+<div class="row">
+        @{
+
+
+            if (cartamount == 0)
+            { <h3 class="text-center">Empty !</h3>
+            }
+            else
+            {
+                
+
+
+                foreach (var item in itemlist)
+                {
+                    if (item.Quantity != 0)
+                    {
+                        if (counter != 0 && counter % 2 == 0)
+                        {
+                        @:</div>
+                        @:<div class="row">
+
+
+}
+
+ViewBag.product = item.product;
+
+@:<div class="col-md-12 col-xs-12 text-center">
+    <div class="col-md-6 col-sm-6 text-center">
+        <div class="col-md-6 col-sm-6"></div>
+        <div class="col-md-6 col-sm-6">
+            @Html.Partial("_ProductInfo")
+            <label>@item.product.ProductDes</label>
+        </div>
+    </div>
+
+
+
+    <div class="col-md-6 col-sm-6" style="padding-top:10%;">
+        <div class="row">
+
+            <label>Price:</label>
+            <label>$@item.product.Price</label>
+
+        </div>
+        <div class="row">
+            <label>Quantity:</label>
+            <input type="number" style="width:60px;text-align:center;" id="quantityBox @item.ProductId" onchange="ChangeQuantity(@item.ProductId)" value="@item.Quantity" min="0" />
+        </div>
+    </div>
+
+    counter++;
+
+}
+}
+}
+
+
+        }
+
+  <div class="row">
+      <div class="col-sm-6 col-md-6"></div>
+      <div class="col-sm-6 col-md-6" style="text-align:match-parent;">
+          <div class="row" style="background-color:white">
+              <label style="color:black;font-size:15px;">TotalPrice:</label>
+              <span id="tprice1" class="total_price_id" style="color:black;text-align:center;font-size:20px;">@cartamount</span>
+
+            
+
+              <input type="button" value="Check out" onclick="Checkout(@Session["coin"]);" />
+
+          </div>
+      </div>
+  </div>
+
+               
+
+                    
+                        
+              
+            
+
+    </div>
+
+
+
+<script>
+
+    function Checkout(balancecoin) {
+
+        var totalamount = parseInt(document.getElementById("tprice1").innerHTML);
+
+        if (balancecoin < totalamount)
+            {
+            alert("Insufficient balance");
+            }
+        else if (totalamount == 0)
+            { alert("You don't have any item in your cart"); }
+        else
+            {
+            alert("Check out successfully");
+            window.location = "/Cart/Checkout";
+            }
+}
+
+
+    function ChangeQuantity(pid) {
+
+        var quant = document.getElementById("quantityBox " + pid).value
+
+
+        var pdata = {
+            pi: pid,
+            qu: quant
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/Cart/ChangeCart",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(pdata),
+            dataType: "json",
+
+            // Response Success
+            success: function (response) {
+
+
+
+                document.getElementById("tprice").innerHTML = response.amt;
+                document.getElementById("tprice1").innerHTML = response.amt;
+                //document.getElementById("shopping_cart_label").value = response.clicked_product_id;
+
+
+
+            },
+
+            // Response Fail
+            failure: function (response) {
+                alert("Fail Case");
+            },
+
+            // Response Error
+            error: function (response) {
+                alert("ERROR case");
+            }
+
+
+        });
+    }
+
+
+</script>
+

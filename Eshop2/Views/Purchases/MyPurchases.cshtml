@@ -1,0 +1,93 @@
+﻿
+@using Eshop2.Models
+
+@{
+    ViewBag.Title = "MyPurchases";
+
+
+    List<ActCode> LAbU = (List<ActCode>)ViewData["labu"];
+
+
+}
+
+<br>
+<br>
+<div class="row">
+    @{
+
+        var LA1 = from ActCode in LAbU group ActCode by ActCode.OrderDate;
+
+
+        foreach (var a in LA1)
+        {
+            var LA2 = from ActCode in a orderby ActCode.ProductId group ActCode by ActCode.ProductId;
+            foreach (var b in LA2)
+            {
+
+                ViewBag.product = b.FirstOrDefault().product;
+
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 text-center">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 text-center"></div>
+                            <div class="col-md-6 col-sm-6 text-center">
+                                @Html.Partial("_ProductInfo")
+                                @b.FirstOrDefault().product.ProductDes
+                                <br />
+                                <button class="btn btn-primary" style="background-color:darkslategrey;" onclick="">
+                                    Download
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <tr class="col-md-6 col-sm-6 text-center" style="margin-top:10%;">
+                        <table class="table-hover">
+                            <tr>
+                                <td>
+                                    <label style="float:left;">Purchased Date:</label>
+                                </td>
+                                <td>
+                                    @b.FirstOrDefault().OrderDate.Date.ToString("dd/MM/yyy")
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label style="float:left;">Quantity:</label>
+                                </td>
+                                <td>
+                                    @b.Count()
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label style="float:left;">Activation Code:</label>
+                            </td>
+                            <td>
+                                <select style="width:350px;">
+                                    @{
+                                        for (int j = 0; j < b.Count(); j++)
+                                        {
+                                            <option>@b.ToList()[j].Code</option>
+                                        }
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+            </div>
+
+
+        }
+
+    }
+    }
+
+
+
+
+
+
+
+

@@ -1,0 +1,197 @@
+﻿
+
+<script>
+   
+</script>
+
+
+
+
+@{
+}
+
+@{ if (Session["username"] != null)
+    {
+    <div class="row">
+
+        <br>
+
+        <div class="thumbnail" style="background-color:lightgray;">
+
+            <div class="caption">
+
+                <h3 id="thumbnail-label" style="font-family:Verdana;"><span class="product_id_label"></span>Make a wish</h3>
+
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 text-center">
+
+            <div class="thumbnail" style="background-color:lightgray;">
+                <img src="~/Content/images/worldpeace.jpg" alt="Image" class="img-rounded" data-holder-rendered="true" style="height:200px; width:100%; display: block;" title="" />
+
+                <div class="caption">
+
+                    <h3 id="thumbnail-label" style="font-family:Verdana;"><span class="product_id_label"></span>World Peace</h3>
+
+                    <input type="button" value="Pray" onclick="SubmitPray(1);" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 text-center">
+
+            <div class="thumbnail" style="background-color:lightgray;">
+                <img src="~/Content/images/wealth.jpg" alt="Image" class="img-rounded" data-holder-rendered="true" style="height:200px; width:100%; display: block;" title="" />
+
+                <div class="caption">
+
+                    <h3 id="thumbnail-label" style="font-family:Verdana;"><span class="product_id_label"></span>Wealth</h3>
+
+                    <input type="button" value="Pray" onclick="SubmitPray(2);" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 text-center">
+
+            <div class="thumbnail" style="background-color:lightgray;">
+                <img src="~/Content/images/power.jpg" alt="Image" class="img-rounded" data-holder-rendered="true" style="height:200px; width:100%; display: block;" title="" />
+
+                <div class="caption">
+
+                    <h3 id="thumbnail-label" style="font-family:Verdana;"><span class="product_id_label"></span>Power</h3>
+
+                    <input type="button" value="Pray" onclick="SubmitPray(3);" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 text-center">
+
+            <div class="thumbnail" style="background-color:lightgray;">
+                <img src="~/Content/images/courage.jpg" alt="Image" class="img-rounded" data-holder-rendered="true" style="height:200px; width:100%; display: block;" title="" />
+
+                <div class="caption">
+
+                    <h3 id="thumbnail-label" style="font-family:Verdana;"><span class="product_id_label"></span>Courage</h3>
+
+                    <input type="button" value="Pray" onclick="SubmitPray(4);" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 text-center">
+
+            <div class="thumbnail" style="background-color:lightgray;">
+                <img src="~/Content/images/freedom.jpg" alt="Image" class="img-rounded" data-holder-rendered="true" style="height:200px; width:100%; display: block;" title="" />
+
+                <div class="caption">
+
+                    <h3 id="thumbnail-label" style="font-family:Verdana;"><span class="product_id_label"></span>Freedom</h3>
+
+                    <input type="button" value="Pray" onclick="SubmitPray(5);" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 text-center">
+
+            <div class="thumbnail" style="background-color:lightgray;">
+                <img src="~/Content/images/love.jpg" alt="Image" class="img-rounded" data-holder-rendered="true" style="height:200px; width:100%; display: block;" title="" />
+
+                <div class="caption">
+
+                    <h3 id="thumbnail-label" style="font-family:Verdana;"><span class="product_id_label"></span>Love</h3>
+
+                    <input type="button" value="Pray" onclick="SubmitPray(6);" />
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-3 col-sm-3 text-center">
+
+            <div class="thumbnail" style="background-color:lightgray;">
+                <img src="~/Content/images/wisdom.jpg" alt="Image" class="img-rounded" data-holder-rendered="true" style="height:200px; width:100%; display: block;" title="" />
+
+                <div class="caption">
+
+                    <h3 id="thumbnail-label" style="font-family:Verdana;"><span class="product_id_label"></span>Wisdom</h3>
+
+                    <input type="button" value="Pray" onclick="SubmitPray(7);" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 text-center">
+
+            <div class="thumbnail" style="background-color:lightgray;">
+                <img src="~/Content/images/glamour.jpg" alt="Image" class="img-rounded" data-holder-rendered="true" style="height:200px; width:100%; display: block;" title="" />
+
+                <div class="caption">
+
+                    <h3 id="thumbnail-label" style="font-family:Verdana;"><span class="product_id_label"></span>Glamour</h3>
+
+                    <input type="button" value="Pray" onclick="SubmitPray(8);" />
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    }
+}
+
+
+<script>
+
+
+
+    function SubmitPray(wid) {
+
+       
+
+
+        var wdata = {
+            id: wid
+            
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/Pray/PraySubmit",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(wdata),
+            dataType: "json",
+
+            // Response Success
+            success: function (response) {
+
+                alert("Your Pray succeed to get response, coin minus 1.");
+
+                document.getElementById("walletamount").innerHTML = response.coincount;
+                
+                //document.getElementById("shopping_cart_label").value = response.clicked_product_id;
+
+
+
+            },
+
+            // Response Fail
+            failure: function (response) {
+                alert("Your Pray failed to get response.");
+            },
+
+            // Response Error
+            error: function (response) {
+                alert("ERROR case");
+            }
+
+
+        });
+    }
+
+
+</script>

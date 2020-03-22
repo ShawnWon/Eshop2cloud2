@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shawn's Mysterious House</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color:black;">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Shawn's Wonder House", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            
+            <form action="javascript:searchClick()" class="navbar-brand" style="padding-top:7px;" method="post">
+            <table>
+                <tr>
+                    <td>@{ string searchStr = (string)ViewData["searchStr"];}
+                        <input type="text" class="form-control" placeholder="Search.." size="6" id="searchBox" value="@searchStr">
+                    </td>
+                    <td>
+                    <button type="submit" class="btn btn-info" style="background-color:darkslategrey;border:none;">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </td>
+                    
+                </tr>
+            </table>
+            </form>
+        </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="@Url.Action("ProductList","Product")" class="home_link">
+                            <span class="glyphicon glyphicon-home">Home</span>
+                        </a>
+                    </li>
+                </ul>
+
+                @{ string page = (string)Session["page"];
+                    string username = (string)Session["username"];
+
+                    if (page == "productlist" && username != null)
+                    {
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="@Url.Action("PrayPage","Pray")" class="home_link">
+                                    <span class="glyphicon glyphicon-star">Pray</span>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a href="#">
+                                    <span class="glyphicon glyphicon-piggy-bank">Coin</span>
+                                    <span class="badge" id="walletamount">@Session["coin"]</span>
+                                    
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("MyPurchases", "Purchases")">
+                                    <span class="glyphicon glyphicon-inbox">History</span>
+
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("ViewCart", "Cart")">
+                                    <span class="glyphicon glyphicon-shopping-cart">Cart</span>
+                                    <span class="badge" id="cartcount">@ViewData["cartcount"]</span>
+                                </a>
+
+
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Welcome! @username
+                                </a>
+                            </li>
+                            <li>
+                            <li>
+                                <a href="@Url.Action("Logout", "Home")">
+                                    <span class="glyphicon glyphicon-log-out">LogOut</span>
+
+                                </a>
+                            </li>
+                        </ul>
+                    }
+
+                    else if (page == "cart")
+                    {
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a href="#">
+                                    <span class="glyphicon glyphicon-piggy-bank">Coin</span>
+                                    <span class="badge" id="walletamount">@Session["coin"]</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("MyPurchases", "Purchases")">
+                                    <span class="glyphicon glyphicon-inbox">History</span>
+
+                                </a>
+                            </li>
+                            @if ((int)ViewData["cartamount"] != 0)
+                            {
+                                <li>
+                                    <a href="#">
+                                        <span class="glyphicon glyphicon-credit-card">Cart</span>
+                                        <span class="badge" id="tprice">@ViewData["cartamount"]</span>
+                                    </a>
+                                </li>
+                            }
+                            <li>
+                                <a href="#">
+                                    Checkout? @username
+                                </a>
+                            </li>
+                            <li>
+                            <li>
+                                <a href="@Url.Action("Logout", "Home")">
+                                    <span class="glyphicon glyphicon-log-out">LogOut</span>
+                                </a>
+                            </li>
+                        </ul>
+                    }
+                    else if (page == "purchases")
+                    {
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a href="#">
+                                    <span class="glyphicon glyphicon-piggy-bank"></span>
+                                    <span class="badge" id="walletamount">@Session["coin"]</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("ViewCart", "Cart")">
+                                    <span class="glyphicon glyphicon-shopping-cart"></span>
+                                    <span class="badge" id="cartcount">@ViewData["cartcount"]</span>
+                                </a>
+
+
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Thank you! @username
+                                </a>
+                            </li>
+                            <li>
+                            <li>
+                                <a href="@Url.Action("Logout", "Home")">
+                                    <span class="glyphicon glyphicon-log-out"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    }
+
+                    else
+                    {
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a href="@Url.Action("Login", "Home")">
+                                    <span class="glyphicon glyphicon-log-in">LogIn</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Shawn Wang Present.</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
