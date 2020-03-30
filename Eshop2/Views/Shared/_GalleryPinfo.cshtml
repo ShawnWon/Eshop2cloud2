@@ -12,7 +12,7 @@
 
         <div class="thumbnail" style="background-color:lightgray;">
 
-            @{ if (Session["username"] == null)
+            @{ if (!Request.IsAuthenticated)
                 {
                     <img src="~/Content/images/@p.Imgaddress" alt="Image" onclick="ReDirectToLogIn();" class="img-rounded" data-holder-rendered="true" style="height:100px; width:50%; display: block;" title="@p.ProductDes" />
                 }
@@ -28,7 +28,7 @@
 
 
 
-                @{ if (Session["username"] != null)
+                @{ if (Request.IsAuthenticated)
                     {
                         <input type="button" value="$@p.Price -Add to Cart" onclick="Add_to_Cart(@p.Id);" />
                     }

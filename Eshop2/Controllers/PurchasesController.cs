@@ -9,7 +9,7 @@ using Eshop2.Filter;
 
 namespace Eshop2.Controllers
 {
-    [LogincheckAuthorizer]
+    [Authorize]
     public class PurchasesController : Controller
     {
         public ActionResult MyPurchases()

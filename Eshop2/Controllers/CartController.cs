@@ -11,7 +11,7 @@ using Eshop2.Models;
 namespace Eshop2.Controllers
 {
     
-    [LogincheckAuthorizer]
+    [Authorize]
     public class CartController : Controller
     {
 

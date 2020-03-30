@@ -17,7 +17,7 @@
     int counter = 0;
 }
 
-@{ if (Session["username"] != null)
+@{ if (Request.IsAuthenticated)
     {
 <div class="row">
     
@@ -179,7 +179,7 @@
                     document.close();
                 }
             }
-            ajax.open("POST", "/Home/Login", true);
+            ajax.open("POST", "/Account/Login", true);
             ajax.setRequestHeader("Content-type", "application/json;charset=UTF-8");
 
             ajax.send(JSON.stringify(data));

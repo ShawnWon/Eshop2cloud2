@@ -19,16 +19,20 @@ namespace Eshop2.Controllers
             bool match = false;
             Session["page"] = "productlist";
 
-            if (Session["cart"] != null)
+            if (Request.IsAuthenticated)
             {
-                Cart cart = (Cart)Session["cart"];
+                string username = User.Identity.Name;
+                username = "JonSnow";
+                Cart cart = CartData.GetCart(username);
+                Session["cart"]= cart;
+                Session["coin"] = UserData.GetCoinNum(username);
                 if (cart.Items != null)
                     ViewData["cartcount"] = cart.Items.Sum(x => x.Quantity);
                 else
                     ViewData["cartcount"] = 0;
 
-                int UserPre = UserData.GetPreference((string)Session["username"]);
-                ViewBag.product = ProductData.GetProductsByCat(UserPre);
+                //int UserPre = UserData.GetPreference((string)Session["username"]); */
+                ViewBag.product = ProductData.GetProductsByCat(1);
 
             }
             

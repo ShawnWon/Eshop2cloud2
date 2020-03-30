@@ -44,9 +44,9 @@
                 </ul>
 
                 @{ string page = (string)Session["page"];
-                    string username = (string)Session["username"];
+                    
 
-                    if (page == "productlist" && username != null)
+                    if (page == "productlist" && Request.IsAuthenticated)
                     {
                         <ul class="nav navbar-nav">
                             <li>
@@ -61,7 +61,7 @@
                                 <a href="#">
                                     <span class="glyphicon glyphicon-piggy-bank">Coin</span>
                                     <span class="badge" id="walletamount">@Session["coin"]</span>
-                                    
+
                                 </a>
                             </li>
                             <li>
@@ -78,18 +78,8 @@
 
 
                             </li>
-                            <li>
-                                <a href="#">
-                                    Welcome! @username
-                                </a>
-                            </li>
-                            <li>
-                            <li>
-                                <a href="@Url.Action("Logout", "Home")">
-                                    <span class="glyphicon glyphicon-log-out">LogOut</span>
-
-                                </a>
-                            </li>
+                            
+                            
                         </ul>
                     }
 
@@ -119,15 +109,10 @@
                             }
                             <li>
                                 <a href="#">
-                                    Checkout? @username
+                                    Checkout? @User.Identity.Name
                                 </a>
                             </li>
-                            <li>
-                            <li>
-                                <a href="@Url.Action("Logout", "Home")">
-                                    <span class="glyphicon glyphicon-log-out">LogOut</span>
-                                </a>
-                            </li>
+                            
                         </ul>
                     }
                     else if (page == "purchases")
@@ -149,30 +134,17 @@
                             </li>
                             <li>
                                 <a href="#">
-                                    Thank you! @username
+                                    Thank you! @User.Identity.Name
                                 </a>
                             </li>
-                            <li>
-                            <li>
-                                <a href="@Url.Action("Logout", "Home")">
-                                    <span class="glyphicon glyphicon-log-out"></span>
-                                </a>
-                            </li>
+                            
+                            
                         </ul>
                     }
 
-                    else
-                    {
-                        <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                <a href="@Url.Action("Login", "Home")">
-                                    <span class="glyphicon glyphicon-log-in">LogIn</span>
-                                </a>
-                            </li>
-
-                        </ul>
-                    }
+                    
                 }
+                @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>

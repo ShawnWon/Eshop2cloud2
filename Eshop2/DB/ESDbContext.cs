@@ -12,7 +12,7 @@ namespace Eshop2.DB
     {
         
            
-            public ESDbContext() : base("Server=den1.mssql7.gear.host;" + "Database=Eshop8; User Id=Eshop8; Password=Ilove1117@;")
+            public ESDbContext() : base("EshopDBConnection")
             {
                 System.Data.Entity.Database.SetInitializer(
                     new ESDbInitializer<ESDbContext>());
